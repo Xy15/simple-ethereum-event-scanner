@@ -1,4 +1,4 @@
-# simple-ethereum-event-scanner
+# A Simple Ethereum Event Scanner demonstrate with E-Commerce Shop
 
 **Setup**
 1. Install Metamask extension in any browser of choice. https://metamask.io/download/
