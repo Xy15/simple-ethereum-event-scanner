@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Subscribe Events</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="web3File/node_modules/web3/dist/web3.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link href="style.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.4/dist/sweetalert2.all.min.js"></script>
+    <script type="text/javascript" src="jquery-3.6.3.js"></script>
+    <script type="text/javascript" src="eventScanner.js"></script>
+	<script type="text/javascript" src="subscribe.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="product.html">Ethereum Event</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="product.html">Home</a>
+                      </li>
+                  <li class="nav-item d-none onlyOwner">
+                    <a class="nav-link" href="createProduct.html">Add New Product</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="subscribe.html">Subscribe Events</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="viewEvent.html">View Events</a>
+                  </li>
+                </ul>
+                <span id="usernameBanner" class="navbar-brand ms-auto">Welcome !</span>
+                <button class="btn btn-danger" id="logoutButton" onclick="logout()">Logout</button>
+            </div>
+        </div>      
+    </nav>
+
+	<div class="container mt-4">
+        <p style="color: rgb(136, 135, 135); font-size: small;">**Click on the transaction hash to view transaction and event details.</p>
+		<div class="row">
+		  <div class="col-md-2 d-flex align-items-center">
+			<label for="subscribeEvent">Subscribe To Event:</label>
+		</div>
+		<div class="col-md-4">
+			<select id="subscribeEvent" class="form-control" name="subscribeEvent" onchange="disabledBtnUnsubscribe()">
+			  <option value="ProductCreated">ProductCreated</option>
+			  <option value="ProductPurchased">ProductPurchased</option>
+			  <option value="ProductUpdated">ProductUpdated</option>
+			  <option value="ProductDeleted">ProductDeleted</option>
+			  <option value="ProductStockUpdated">ProductStockUpdated</option>
+			  <option value="LowStock">LowStock</option>
+			</select>
+		  </div>
+          <div class="row col-md-4">
+		  <div class="col-md-4">
+			<button type="button" class="btn btn-dark" onclick="subscribe()">Subscribe</button>
+            </div>
+            <div class="col-md-4">
+            <button id="btnUnsubscribe" type="button" class="btn btn-danger" onclick="unsubscribe()">Unsubscribe</button>
+		  </div>
+        </div>
+		</div>
+    </div>
+
+    <div class="container mt-4 d-none" id="ProductCreatedTable">
+        <table class="table table-bordered">
+            <caption>ProductCreated</caption>
+            <thead>
+                <tr>
+                    <th>Transaction Hash</th>
+                    <th>Product ID</th>
+                    <th>Product Name</th>
+					<th>Product Description</th>
+                    <th>Product Category</th>
+                    <th>Price (Ether)</th>
+                    <th>Image</th>
+                </tr>
+            </thead>
+            <tbody id="ProductCreatedList">
+            </tbody>
+        </table>
+    </div>
+
+    <div id="#subscribeEvent-ProductUpdated">
+    <div class="container mt-4 d-none" id="ProductUpdatedTable">
+        <table class="table table-bordered"  >
+            <caption>ProductUpdated</caption>
+            <thead>
+                <tr>
+                    <th rowspan="2" style="vertical-align: middle;">Transaction Hash</th>
+                    <th colspan="6" style="text-align: center; background-color: #6a6868; color: white;">Previous Product</th>
+                    <th colspan="6" style="text-align: center; background-color: #6a6868; color: white;">Current Product</th>
+                </tr>
+                <tr>
+                    <th>Product ID</th>
+                    <th>Product Name</th>
+					<th>Product Description</th>
+                    <th>Product Category</th>
+                    <th>Price (Ether)</th>
+                    <th>Image</th>
+                    <th>Product ID</th>
+                    <th>Product Name</th>
+					<th>Product Description</th>
+                    <th>Product Category</th>
+                    <th>Price (Ether)</th>
+                    <th>Image</th>
+                </tr>
+            </thead>
+            <tbody id="ProductUpdatedList">
+            </tbody>
+        </table>
+    </div>
+</div>
+
+    <div class="container mt-4 d-none" id="ProductPurchasedTable">
+        <table class="table table-bordered" >
+            <caption>ProductPurchased</caption>
+            <thead>
+                <tr>
+                    <th>Transaction Hash</th>
+                    <th>Product ID</th>
+                    <th>Product Name</th>
+                    <th>Product Category</th>
+                    <th>Price (Ether)</th>
+                    <th>Image</th>
+                    <th>Stock</th>
+                    <th>Buyer</th>
+                    <th>Quantity</th>
+                    <th>Total Price (Ether)</th>
+                </tr>
+            </thead>
+            <tbody id="ProductPurchasedList">
+            </tbody>
+        </table>
+    </div>
+
+    <div class="container mt-4 d-none" id="ProductDeletedTable">
+        <table class="table table-bordered" >
+            <caption>ProductDeleted</caption>
+            <thead>
+                <tr>
+                    <th>Transaction Hash</th>
+                    <th>Product ID</th>
+                    <th>Product Name</th>
+                    <th>Product Category</th>
+                    <th>Price (Ether)</th>
+                    <th>Image</th>
+                    <th>Stock</th>
+                </tr>
+            </thead>
+            <tbody id="ProductDeletedList">
+            </tbody>
+        </table>
+    </div>
+
+    <div class="container mt-4 d-none" id="ProductStockUpdatedTable">
+        <table class="table table-bordered" >
+            <caption>ProductStockUpdated</caption>
+            <thead>
+                <tr>
+                    <th>Transaction Hash</th>
+                    <th>Product ID</th>
+                    <th>Product Name</th>
+                    <th>Product Category</th>
+                    <th>Price (Ether)</th>
+                    <th>Image</th>
+                    <th>Previous Stock</th>
+                    <th>Current Stock</th>
+                </tr>
+            </thead>
+            <tbody id="ProductStockUpdatedList">
+            </tbody>
+        </table>
+    </div>
+
+    <div class="container mt-4 d-none" id="LowStockTable">
+        <table class="table table-bordered" >
+            <caption>LowStock</caption>
+            <thead>
+                <tr>
+                    <th>Transaction Hash</th>
+                    <th>Product ID</th>
+                    <th>Product Name</th>
+                    <th>Product Description</th>
+                    <th>Product Category</th>
+                    <th>Price (Ether)</th>
+                    <th>Image</th>
+                    <th>Stock</th>
+                </tr>
+            </thead>
+            <tbody id="LowStockList">
+            </tbody>
+        </table>
+    </div>
+
+
+    <footer class="bg-dark text-light py-4" style="margin-top: 10%;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>OneZero Skincare Store</h4>
+                    <p>Welcome to OneZero Skincare Store, where beauty meets science and innovation. We're dedicated to helping you achieve healthy, glowing, and rejuvenated skin. Our extensive range of premium skincare products is carefully curated to address your unique skin concerns.</p>
+                </div>
+                <div class="col-md-3">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="product.html">Home</a></li>
+                        <li class="d-none onlyOwner"><a href="createProduct.html">Add New Product</a></li>
+                        <li><a href="subscribe.html">Subscribe Events</a></li>
+                        <li><a href="viewEvent.html">View Events</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h5>Contact Us</h5>
+                    <address>
+                      <i class="fas fa-map-marker-alt"></i> Address: <br>
+                      Lot S53, 2nd Floor, <br>
+                      KL Festival City, <br>
+                      67, Jln Taman Ibu Kota, <br>
+                      Taman Danau Kota, <br>
+                      53300 Kuala Lumpur <br>
+                      <i class="fas fa-phone"></i> Phone: 03-4143 5566<br>
+                        <i class="fas fa-envelope"></i> Email: info@onezero.com.my
+                    </address>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
