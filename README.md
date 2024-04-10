@@ -5,4 +5,5 @@
 2. Install Ganache. https://trufflesuite.com/ganache/
 3. Change the Ganache port number to 8545.
 4. Compile and deploy to Ganache using Remix IDE. https://remix.ethereum.org/
-5. Get the ABI and contract address from the Remix IDE after deployment and change the abi and contractAddress variables in the eventScanner.js file. 
+5. Get the ABI and contract address from the Remix IDE after deployment and change the abi and contractAddress variables in the eventScanner.js file.
+6. Install packages 'npm install'
