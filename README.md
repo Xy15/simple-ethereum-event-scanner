@@ -9,4 +9,4 @@
 6. Install packages 'npm install'
 
 **Use Case Diagram**
-![image](https://github.com/Xy15/simple-ethereum-event-scanner/assets/58455555/231e93a7-1394-4b48-8620-7a5135e6a6b6)
+![Use Case Diagram](https://github.com/Xy15/simple-ethereum-event-scanner/assets/58455555/a4776db8-b6a5-4b19-a006-72f7d00643f0)
