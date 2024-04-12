@@ -1,5 +1,7 @@
 # A Simple Ethereum Event Scanner demonstrate with E-Commerce Shop
 
+**Tech Stack**: JavaScript, Node.js, Web3.js, Solidity, jQuery, HTML, CSS, Bootstrap
+
 **Setup**
 1. Install Metamask extension in any browser of choice. https://metamask.io/download/
 2. Install Ganache. https://trufflesuite.com/ganache/
